@@ -1,0 +1,11 @@
+[package]
+name = "feedback-normalization"
+version = "0.1.0"
+authors = ["ashcorr"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+mysql = "17.0.0"
+serde_json = "1.0"
