@@ -138,16 +138,18 @@ pub fn process_tally(event: &FeedbackEvent) -> Vec<FeedbackEventNormalised> {
 pub fn process_nested_tally(event: &FeedbackEvent) -> Vec<FeedbackEventNormalised> {
     let mut normalised_events = vec![];
     for (key, value) in event.json["data"].as_object().unwrap() {
-        for (nested_key, nested_value) in value.as_object().unwrap() {
-            normalised_events.push(FeedbackEventNormalised {
-                datetime: event.datetime,
-                round_id: event.round_id,
-                category_primary: event.key_name.clone(),
-                category_secondary: key.to_string(),
-                category_tertiary: nested_key.to_string(),
-                version: event.version,
-                value: nested_value.to_string(),
-            });
+        if value.is_object() {
+            for (nested_key, nested_value) in value.as_object().unwrap() {
+                normalised_events.push(FeedbackEventNormalised {
+                    datetime: event.datetime,
+                    round_id: event.round_id,
+                    category_primary: event.key_name.clone(),
+                    category_secondary: key.to_string(),
+                    category_tertiary: nested_key.to_string(),
+                    version: event.version,
+                    value: nested_value.to_string(),
+                });
+            }
         }
     }
 
