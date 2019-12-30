@@ -28,15 +28,15 @@ pub struct FeedbackEventNormalised {
 }
 
 fn main() -> Result<(), std::io::Error> {
-    // let database_url =
-    //     env::var("FEEDBACK_DATABASE_URL").expect("Could not read FEEDBACK_DATABASE_URL variable");
-    // let feedback_table_name =
-    //     env::var("FEEDBACK_TABLE_NAME").expect("Could not read FEEDBACK_TABLE_NAME variable");
-    // let feedback_normalized_table_name = env::var("FEEDBACK_NORMALISED_TABLE_NAME")
-    //     .expect("Could not read FEEDBACK_NORMALISED_TABLE_NAME variable");
-    let database_url = "mysql://root:password@localhost:3306/ss13";
-    let feedback_table_name = "erro_feedback";
-    let feedback_normalized_table_name = "erro_feedback_normalized";
+    let database_url =
+        env::var("FEEDBACK_DATABASE_URL").expect("Could not read FEEDBACK_DATABASE_URL variable");
+    let feedback_table_name =
+        env::var("FEEDBACK_TABLE_NAME").expect("Could not read FEEDBACK_TABLE_NAME variable");
+    let feedback_normalized_table_name = env::var("FEEDBACK_NORMALISED_TABLE_NAME")
+        .expect("Could not read FEEDBACK_NORMALISED_TABLE_NAME variable");
+    // let database_url = "mysql://root:password@localhost:3306/ss13";
+    // let feedback_table_name = "erro_feedback";
+    // let feedback_normalized_table_name = "erro_feedback_normalized";
     let pool = mysql::Pool::new(database_url).unwrap();
 
     let events: Vec<FeedbackEvent> = pool
