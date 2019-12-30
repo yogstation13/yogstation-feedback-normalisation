@@ -19,7 +19,7 @@ node {
 
         stage('Deploy') {
             withKubeConfig([credentialsId: 'yogstation-kubeconf-credentials']) {
-                sh 'kubectl set image --namespace yogbot deployment/feedback-normalization feedback-normalization=yogstation/feedback-normalization:${BUILD_NUMBER}'
+                sh 'kubectl set image --namespace yogstation-services cronjob/feedback-normalization feedback-normalization=yogstation/feedback-normalization:${BUILD_NUMBER}'
             }   
         }
     }
