@@ -157,8 +157,31 @@ pub fn process_nested_tally(event: &FeedbackEvent) -> Vec<FeedbackEventNormalise
 }
 
 pub fn process_associative(event: &FeedbackEvent) -> Vec<FeedbackEventNormalised> {
-    println!("Received associative value, ignoring. Associative events will need a more manual approach. {:?}", event.key_name);
-    vec![]
+    let mut normalised_events = vec![];
+
+    match event.key_name.as_str() {
+        "time_dilation_current" => 
+            for (key, value) in event.json["data"].as_object().unwrap() {
+                for (time_dilation_current, time_dilation_values) in value.as_object().unwrap() {
+                    let time_dilation_current = NaiveDateTime::parse_from_str(time_dilation_current, "%Y-%m-%d %H:%M:%S").unwrap();
+
+                    for (time_dilation_average, time_dilation_value) in time_dilation_values.as_object().unwrap() {
+                        normalised_events.push(FeedbackEventNormalised {
+                            datetime: time_dilation_current,
+                            round_id: event.round_id,
+                            category_primary: event.key_name.clone(),
+                            category_secondary: time_dilation_average.to_string(),
+                            category_tertiary: "".to_string(),
+                            version: event.version,
+                            value: time_dilation_value.to_string(),
+                        });
+                    }
+                }
+            },
+        _ => println!("Received associative value, ignoring. Associative events will need a more manual approach. {:?}", event.key_name)
+    }
+
+    normalised_events
 }
 
 pub fn process_text(event: &FeedbackEvent) -> Vec<FeedbackEventNormalised> {
