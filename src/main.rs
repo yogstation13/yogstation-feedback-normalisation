@@ -173,7 +173,7 @@ pub fn process_associative(event: &FeedbackEvent) -> Vec<FeedbackEventNormalised
                             category_secondary: time_dilation_average.to_string(),
                             category_tertiary: "".to_string(),
                             version: event.version,
-                            value: time_dilation_value.to_string(),
+                            value: ((time_dilation_value.as_str().unwrap().parse::<f32>().unwrap() * 1000.0).round() / 1000.0).to_string()
                         });
                     }
                 }
